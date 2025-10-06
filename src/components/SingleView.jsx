@@ -3,14 +3,22 @@ import { useParams } from 'react-router-dom';
 import '../App.css';
 
 
-export default function SingleView({data}) {
-  // get the id from the url using useParams
+export default function SingleView({}) {
   const { id } = useParams();
   
   // get the product from the data using the id
   const product = data.find(product => product.id === id);
 
   const { user } = product;
+
+    // Use the useEffect hook to fetch the product when the component boots
+  useEffect(() => {
+    const getProduct = async () => {
+      const data = await fetchProductById(id);
+      setProduct(data)
+    }
+    getProduct();
+  }, [id, fetchProductById]);
 
   const title = product.description ?? product.alt_description;
   const style = {
