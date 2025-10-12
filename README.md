@@ -134,7 +134,6 @@ export default function SingleView() {
     return product;
   };
 
-  // Use the useEffect hook to fetch the product when the component boots
   useEffect(() => {
     const getProduct = async () => {
       const data = await fetchProductById(id);
