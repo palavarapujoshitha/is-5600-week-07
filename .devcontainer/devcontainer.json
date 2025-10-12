@@ -1,47 +1,44 @@
 {
-    "name": "IS 5600 - Lab 7",
-    // "image": "mcr.microsoft.com/devcontainers/universal:2",
-    // "hostRequirements": {
-    //   "cpus": 4
-    // },
-    "waitFor": "onCreateCommand",
-    "updateContentCommand": "npm install",
-    
-    "dockerComposeFile": "docker-compose.yml",
-      "service": "app",
-      "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  
-    "postAttachCommand": {
-      "server": "npm run test:watch"
+  "name": "IS 5600 - Lab 7",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "server",
+  "runServices": ["server", "db"],
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+
+  "postCreateCommand": "cd node-src && npm install && cd .. && npm install",
+  "postAttachCommand": "npm start",
+
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["src/App.js"]
     },
-    // Configure tool-specific properties.
-    "customizations": {
-      "codespaces": {
-        "openFiles": ["app.js"]
-      },
-      // Configure properties specific to VS Code.
-      "vscode": {
-        "settings": {},
-        "extensions": [
-          "streetsidesoftware.code-spell-checker",
-          "mongodb.mongodb-vscode"
-        ]
-      }
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "streetsidesoftware.code-spell-checker",
+        "mongodb.mongodb-vscode"
+      ]
+    }
+  },
+
+  "portsAttributes": {
+    "3000": {
+      "label": "React Application",
+      "onAutoForward": "openPreview"
     },
-    "portsAttributes": {
-      "3000": {
-        "label": "Application",
-        "onAutoForward": "openPreview"
-      },
-      "27017": {
-        "label": "MongoDB",
-        "onAutoForward": "notify"
-      }
+    "27017": {
+      "label": "MongoDB",
+      "onAutoForward": "notify"
     },
-    "forwardPorts": [3000, 27017],
-    "containerEnv": {
-      "MONGO_INITDB_ROOT_USERNAME": "root",
-      "MONGO_INITDB_ROOT_PASSWORD": "example"
-    },
-    
+    "3080": {
+      "label": "Node Application"
+    }
+  },
+
+  "forwardPorts": [3000, 27017, 3080],
+
+  "containerEnv": {
+    "MONGO_INITDB_ROOT_USERNAME": "root",
+    "MONGO_INITDB_ROOT_PASSWORD": "example"
   }
+}
